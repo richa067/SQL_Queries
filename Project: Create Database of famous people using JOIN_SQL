@@ -1,0 +1,177 @@
+In this project, you’re going to make your own table with some small set of “famous people”, then 
+make more tables about things they do and join those to create nice human readable lists.
+
+For example, here are types of famous people and the questions your data could answer:
+
+Movie stars: What movies are they in? Are they married to each other?
+Singers: What songs did they write? Where are they from?
+Authors: What books did they write?
+Fictional characters: How are they related to other characters? What books do they show up in?
+
+/* Create table about the people and what they do here */
+CREATE TABLE stars (id INTEGER PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    twitter TEXT,
+    STARmeter TEXT,
+    birthdate TEXT,
+    following_id INTEGER);
+
+INSERT INTO stars (first_name, last_name, twitter , STARmeter, birthdate, following_id)
+    VALUES ("Antonio", "Banderas", "@antoniobanderas", "228", "1960-08-10", 5);
+INSERT INTO stars (first_name, last_name, twitter, STARmeter, birthdate, following_id)
+    VALUES ("Leonardo", "DiCaprio", "@LeoDiCaprio", "38", "1974-11-11", 6);
+INSERT INTO stars (first_name, last_name, twitter, STARmeter, birthdate, following_id)
+    VALUES ("Adam", "Driver", "@AdamDriver83", "14", "1983-11-19", 2);
+INSERT INTO stars (first_name, last_name, twitter, STARmeter, birthdate, following_id)
+    VALUES ("Joaquin", "Phoenix", "@JoPhoenix74", "10", "1974-10-28", 2);
+INSERT INTO stars (first_name, last_name, twitter, STARmeter, birthdate, following_id)
+    VALUES ("Jonathan", "Pryce", "@Pryce47", "179", "1947-06-01", 9);
+INSERT INTO stars (first_name, last_name, twitter, STARmeter, birthdate, following_id)
+    VALUES ("Tom", "Hanks", "@tomhanks", "58", "1956-07-09", 4);
+INSERT INTO stars (first_name, last_name, twitter, STARmeter, birthdate, following_id)
+    VALUES ("Anthony", "Hopkins", "@ahopkins", "317", "1937-12-31", 4);
+INSERT INTO stars (first_name, last_name, twitter, STARmeter, birthdate, following_id)
+    VALUES ("Al", "Pacino", "@alpacino", "123", "1940-04-25", 10);
+INSERT INTO stars (first_name, last_name, twitter, STARmeter, birthdate, following_id)
+    VALUES ("Joe", "Pesci", "@pesci", "178", "1943-02-09", 8);
+INSERT INTO stars (first_name, last_name, twitter, STARmeter, birthdate, following_id)
+    VALUES ("Brad", "Pitt", "@bradpitt", "37", "1963-12-18", 7);
+
+
+CREATE TABLE leading_role (id INTEGER PRIMARY KEY,
+    stars_id INTEGER,
+    movie TEXT,
+    rate INTEGER);
+
+INSERT INTO leading_role (stars_id, movie, rate)
+    VALUES (4, "Joker", 8.6);
+INSERT INTO leading_role (stars_id, movie, rate)
+    VALUES (3, "Marriage Story", 8.1);
+INSERT INTO leading_role (stars_id, movie, rate)
+    VALUES (2, "Once Upon a Time... in Hollywood", 7.8);
+INSERT INTO leading_role (stars_id, movie, rate)
+    VALUES (1, "Pain and Glory", 7.6);
+INSERT INTO leading_role (stars_id, movie, rate)
+    VALUES (5, "The Two Popes", 7.6);
+
+
+CREATE TABLE supporting_role (id INTEGER PRIMARY KEY,
+    stars_id INTEGER,
+    movie TEXT,
+    rate INTEGER);
+
+INSERT INTO supporting_role (stars_id, movie, rate)
+    VALUES (9, "The Irishman", 8.0);
+INSERT INTO supporting_role (stars_id, movie, rate)
+    VALUES (8, "The Irishman", 8.0);
+INSERT INTO supporting_role (stars_id, movie, rate)
+    VALUES (10, "Once Upon a Time... in Hollywood", 7.8);
+INSERT INTO supporting_role (stars_id, movie, rate)
+    VALUES (6, "A Beautiful Day in the Neighborhood", 7.6);
+INSERT INTO supporting_role (stars_id, movie, rate)
+    VALUES (8, "The Two Popes", 7.6);
+    
+SELECT * FROM stars;
+SELECT * FROM supporting_role;
+SELECT * FROM leading_role;
+
+/*Cross Join*/
+SELECT * FROM stars,supporting_role;
+
+/*Implict Inner Join*/
+SELECT * FROM supporting_role,stars WHERE supporting_role.stars_id = stars_id;
+
+/*Explicit innere Join*/
+SELECT * FROM stars JOIN leading_role ON stars.id = leading_role.stars_id WHERE rate > 8;
+SELECT first_name,last_name,stars_id,rate FROM stars JOIN leading_role ON stars.id = leading_role.stars_id WHERE rate > 8;
+
+/*Outer Join*/
+SELECT first_name,last_name,stars_id,rate FROM stars LEFT OUTER JOIN supporting_role ON stars.id = supporting_role.stars_id;
+
+SELECT stars.first_name, stars.last_name, stars.twitter, supporting_role.movie, supporting_role.rate FROM stars
+    JOIN supporting_role
+    ON stars.id = supporting_role.stars_id
+    WHERE rate > 7.0;
+
+SELECT * FROM stars;
+
+CREATE TABLE joint_projects (id INTEGER PRIMARY KEY,
+    stars_id INTEGER,
+    title TEXT);
+    
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (2, "J.Edgar 2011");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (3, "J.Edgar 2011");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (1, "Evita 1996");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (5, "Evita 1996");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (3, "The Man Who Killed Don Quixote 2018");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (5, "The Man Who Killed Don Quixote 2018");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (2, "Catch Me If You Can 2002");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (6, "Catch Me If You Can 2002");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (1, "Philadelphia 1993");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (6, "Philadelphia 1993");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (1, "The Mask of Zorro 1998");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (7, "The Mask of Zorro 1998");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (10, "Legends of the Fall 1994");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (7, "Legends of the Fall 1994");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (10, "Meet Joe Black 1998");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (7, "Meet Joe Black 1998");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (5, "The Two Popes 2019");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (7, "The Two Popes 2019");
+INSERT INTO joint_projects (stars_id, title)
+    VALUES (8, "Misconduct 2016");
+
+SELECT * FROM joint_projects;
+
+/*Self Join*/
+SELECT stars.first_name, stars.last_name, following.twitter as following_twitter
+    FROM stars
+    JOIN stars following
+    ON stars.following_id = following.id;
+
+CREATE TABLE project_pairs (id INTEGER PRIMARY KEY,
+    project1_id INTEGER,
+    project2_id INTEGER);
+
+INSERT INTO project_pairs (project1_id, project2_id)
+    VALUES(5, 9);
+INSERT INTO project_pairs (project1_id, project2_id)
+    VALUES(8, 4);
+INSERT INTO project_pairs (project1_id, project2_id)
+    VALUES(5, 2);
+INSERT INTO project_pairs (project1_id, project2_id)
+    VALUES(1, 7);
+INSERT INTO project_pairs (project1_id, project2_id)
+    VALUES(8, 10); 
+INSERT INTO project_pairs (project1_id, project2_id)
+    VALUES(9, 11);    
+INSERT INTO project_pairs (project1_id, project2_id)
+    VALUES(2, 8);
+INSERT INTO project_pairs (project1_id, project2_id)
+    VALUES(7, 3);
+    
+SELECT a.title as Main_title, b.title as Other_title FROM project_pairs
+    JOIN joint_projects a
+    ON project_pairs.project1_id = a.id
+    JOIN joint_projects b
+    ON project_pairs.project2_id = b.id;
+
+
